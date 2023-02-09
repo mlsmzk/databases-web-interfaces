@@ -66,5 +66,15 @@ function quadratic(c, r1, r2) {
 function curve2b() {
     curve2a();
     let r = range(0, 21);
-    addPlot(r, r.map((x) => quadratic(-2, 4, 16)));
+    addPlot(r, r.map((x) => quadratic(-2, 4, 16)(x)));
+}
+
+function cubic(c, r1, r2, r3) {
+    return function (x) {return c * (x - r1) * (x - r2) * (x - r3)};
+}
+
+function curve3b() {
+    curve3a();
+    let r = range(0, 11);
+    addPlot(r, r.map((x) => cubic(10, 1, 5, 9)(x)));
 }
