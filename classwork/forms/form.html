@@ -1,0 +1,32 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page for Form</title>
+</head>
+<body>
+    <form class="shapes" action="POST" action="https://cs.wellesley.edu/~cs304flask/cgi-bin/dump.cgi">
+        <p><label>Your Name
+            <input type="name" name="name">
+        </label></p>
+        <p><label>Choose a shape:
+            <select name="fav_shape" id="fav_shape">
+                <option value="">Choose Shape</option>
+                <option value="square">Square</option>
+                <option value="triangle">Triangle</option>
+                <option value="diamond">Diamond</option>
+            </select>
+        </label></p>
+
+        <p><label>
+            If not specified above, what is it?
+            <input type="text" name="alt_fav_shape">
+        </label></p>
+
+        <input type="submit">
+    </form>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+</html>
