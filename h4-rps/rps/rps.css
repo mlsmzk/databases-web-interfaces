@@ -1,0 +1,15 @@
+#player button {
+    background-color: white;
+    border-width: 5px;
+    border-style: solid;
+    border-color: white;
+}
+
+#player img, #computerThrow { 
+    width: 100px;  /* natural size is 200px, but that's too big */
+}
+
+body {
+    font-family: verdana;
+    font-size: medium;
+}

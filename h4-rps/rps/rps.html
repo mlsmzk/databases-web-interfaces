@@ -1,0 +1,73 @@
+<!doctype html>
+<!--
+Date: Nov 5, 2015
+Author: Scott D. Anderson
+All new homework on slideshows and animation.
+
+Images of rock, paper and scissors from
+http://thenounproject.com/StudioFibonacci/
+
+Image of question mark by Gabriele Malaspina from
+
+http://thenounproject.com/term/question-mark/195232
+http://thenounproject.com/gabrielemalaspina
+
+They hold the copyright to their images and must be credited. Please 
+ensure that the credits above stay with the images.  Copy/paste this
+notice into any web pages that use these images.
+
+-->
+<html lang="en">
+<head>
+  <title>Rock Paper Scissors</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="rps.css">
+</head>
+
+<body>
+  <h1>Rock Paper Scissors: Game On!</h1>
+        
+<h2>Player Throw</h2>
+
+<figure id="player">
+    <button id="player-throws-rock" data-choice="rock"><img src="images/rock-200.png" alt="rock"></button>
+    <button id="player-throws-paper"  data-choice="paper"><img src="images/paper-200.png" alt="paper"></button>
+    <button id="player-throws-scissors"  data-choice="scissors"><img src="images/scissors-200.png" alt="scissors"></button>
+  <figcaption>Click on the image of your throw</figcaption>
+</figure>
+
+<h2>Computer Throw</h2>
+
+<figure id="slides">
+    <img id="computerThrow" src="images/question-200.png" alt="" aria-live="polite">
+</figure>
+
+<h2>Outcome</h2>
+
+<p id="outcome"></p>
+
+<p id="game_so_far">So far, you have won <span id="num_wins"></span> times, 
+the computer has won <span id="num_losses"></span> times, 
+and there have been <span id="num_ties"></span> ties.</p>
+
+<p><button id="startOver" type="button">Start Over</button>
+
+<footer>
+<ul class="validation_icons">
+    <li><a href="//validator.w3.org/check?uri=referer"><img 
+       src="//cs.wellesley.edu/~cs204/Icons/valid-html5v2.png"
+       alt="Valid HTML 5"
+       title="Valid HTML 5"  
+       height="31" width="88"/></a></li>
+
+<li><a href="//jigsaw.w3.org/css-validator/check/referer"><img 
+      style="border:0;width:88px;height:31px"
+      src="//cs.wellesley.edu/~cs204/Icons/vcss.gif"
+      alt="Valid CSS!"/></a></li>
+</ul>
+</footer>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cs.wellesley.edu/~anderson/js/bounds/bounds-plugin.js"></script>
+<script src="rps.js"></script>
+</body>
+</html>
