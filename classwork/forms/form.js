@@ -7,3 +7,9 @@ $("form").submit(function (evt) {
 $("#fav_shape").on('select', function (evt) {
     alert("your favorite shape is" + $(".shapes [name=fav_shape]").val());
 });
+
+function serializetoDictionary(formSelector) {
+    let dic = {};
+    let arr = $(formSelector).serializeArray();
+    arr.forEach((pair) => dic[pair.name] = pair.value);
+    return dic;}
