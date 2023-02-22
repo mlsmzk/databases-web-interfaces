@@ -1,5 +1,14 @@
 // Mary, Miles
 
+let num_wins = 0;
+let num_ties = 0;
+let num_losses = 0;
+
+startOver();
+$().on("click", highlightPlayerChoice);
+$("#startOver").on("click", startOver);
+$(".throw").on("click", playerTurn);
+
 function rpsJudge(c1, computer) {
     // Compares two rock paper scissors inputs and
     // decides which wins, or if it is a draw.
@@ -97,19 +106,18 @@ function updateScores(outcome) {
     //           belongs to [-1, 0, 1]
     // Returns:
     //  None
-    let current_text = 1;
     switch (outcome) {
         case -1:
-            current_text = $("#game_so_far").find("#num_wins").val() + 1;
-            $("#game_so_far").find("#num_wins").text(current_text.toString());
+            num_wins += 1;
+            $("#game_so_far").find("#num_wins").text(num_wins.toString());
             break;
         case 0:
-            current_text = $("#game_so_far").find("#num_ties").val() + 1;
-            $("#game_so_far").find("#num_ties").text(current_text.toString());
+            num_ties += 1;
+            $("#game_so_far").find("#num_ties").text(num_ties.toString());
             break;
         case 1:
-            current_text = $("#game_so_far").find("#num_losses").val() + 1;
-            $("#game_so_far").find("#num_losses").text(current_text.toString());
+            num_losses += 1;
+            $("#game_so_far").find("#num_losses").text(num_losses.toString());
             break;
         }
 }
@@ -148,7 +156,6 @@ function playerTurn(evt) {
     
     
     resetRPS();
-    console.log(evt.target);
     let r = $(evt.target).parent().attr("data-choice");
     highlightPlayerChoice(r);
     let computer_choice = randomElt();
@@ -157,7 +164,3 @@ function playerTurn(evt) {
     updateScores(outcome);
 }
 
-startOver();
-$().on("click", highlightPlayerChoice);
-$("#startOver").on("click", startOver);
-$(".throw").on("click", playerTurn);
