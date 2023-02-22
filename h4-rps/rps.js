@@ -19,33 +19,9 @@ function rpsJudge(c1, computer) {
     //  Integer in [-1, 0, 1] representing the outcome;
     //  -1 means c1 beats computer, 0 means it was a draw, and 1 means
     //  the computer beat c1.
-    
-    if (c1 === computer) {
-        return 0
-    }
-    switch (c1) {
-        case "rock":
-            switch (computer) {
-                case "scissors":
-                    return -1;
-                case "paper":
-                    return 1;
-            }
-        case "scissors":
-            switch (computer) {
-                case "rock":
-                    return 1;
-                case "paper":
-                    return -1;
-            }
-        case "paper":
-            switch (computer) {
-                case "rock":
-                    return -1;
-                case "scissors":
-                    return 1;
-            }
-    }
+    let map = {"rock" : 0, "paper" : 1, "scissors" : 2};
+    let wl_matrix = [[0, 1, -1], [-1, 0, 1], [1, -1, 0]];
+    return wl_matrix[map[c1]][map[computer]];
 }
 
 function randomElt() {
@@ -75,7 +51,7 @@ function showComputerChoice(computer_choice) {
     //                   It is in the set ["rock", "paper", "scissors"]
     // Returns:
     //  None
-    $("#computerThrow").attr("src", "rps-images/" + computer_choice + "-200.png")
+    $("#computerThrow").attr("src", "rps-images/" + computer_choice + "-200.png");
 }
 
 function resetRPS() {
@@ -84,6 +60,7 @@ function resetRPS() {
     //  None
     // Returns:
     //  None
+    $("#outcome").text("");
     $("#player").find(".throw").css("border-color","white");
 }
 
@@ -94,9 +71,13 @@ function startOver() {
     // Returns:
     //  None
     resetRPS();
-    $("#game_so_far").find("#num_wins").text("0");
-    $("#game_so_far").find("#num_losses").text("0");
-    $("#game_so_far").find("#num_ties").text("0");
+    $("#computerThrow").attr("src", "rps-images/" + "question" + "-200.png");
+    num_wins = 0;
+    num_ties = 0;
+    num_losses = 0;
+    $("#game_so_far").find("#num_wins").text(num_wins.toString());
+    $("#game_so_far").find("#num_losses").text(num_losses.toString());
+    $("#game_so_far").find("#num_ties").text(num_ties.toString());
 }
 
 function updateScores(outcome) {
@@ -153,14 +134,14 @@ function playerTurn(evt) {
     //       rock, paper, and scissors
     // Returns:
     //  None
-    
-    
     resetRPS();
     let r = $(evt.target).parent().attr("data-choice");
     highlightPlayerChoice(r);
     let computer_choice = randomElt();
     showComputerChoice(computer_choice);
     let outcome = rpsJudge(r, computer_choice);
+    let map = {"-1" : "You win!", "0" : "Tie", "1" : "Computer wins"};
+    $("#outcome").text(map[outcome.toString()]);
     updateScores(outcome);
 }
 
