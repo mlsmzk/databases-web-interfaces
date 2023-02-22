@@ -60,18 +60,30 @@ function highlightPlayerChoice(choice) {
 }
 
 function showComputerChoice(computer_choice) {
-    // This is similar to what we did in class with the flowers.
+    // Display the computer's choice of rock, paper, scissors.
+    // Args:
+    //  computer_choice: string representing the computer's choice.
+    //                   It is in the set ["rock", "paper", "scissors"]
+    // Returns:
+    //  None
     $("#computerThrow").attr("src", "rps-images/" + computer_choice + "-200.png")
 }
 
 function resetRPS() {
     // Sets all the player choices back to a white border and clears the previous message.
+    // Args:
+    //  None
+    // Returns:
+    //  None
     $("#player").find(".throw").css("border-color","white");
 }
 
 function startOver() {
-    // write a function, startOver, to reset the scores (you'll use this when the game starts over). It should also reset the game.
-    // add the latter function as an event handler for the "startOver" button
+    // Reset the scores and game.
+    // Args:
+    //  None
+    // Returns:
+    //  None
     resetRPS();
     $("#game_so_far").find("#num_wins").text("0");
     $("#game_so_far").find("#num_losses").text("0");
@@ -79,7 +91,12 @@ function startOver() {
 }
 
 function updateScores(outcome) {
-    // write a function, updateScores to update the page with the current scores.
+    // Update the page with the current scores.
+    // Args:
+    //  outcome: int representing the outcome of the game which
+    //           belongs to [-1, 0, 1]
+    // Returns:
+    //  None
     let current_text = 1;
     switch (outcome) {
         case -1:
@@ -98,6 +115,7 @@ function updateScores(outcome) {
 }
 
 function rpsJudgeTester() {
+    // Given function to unit test rpsJudge() function
     let tests = [ ["rock", "rock", 0],
                   ["rock", "paper", 1],
                   ["rock", "scissors", -1],
@@ -117,14 +135,16 @@ function rpsJudgeTester() {
 
 function playerTurn(evt) {
     // Simulates one round of rock paper scissors given the player's choice as a string.
-    // uses resetRPS to reset the game to start the turn
-    // uses highlightPlayerChoice to highlights the player's choice
-    // uses randomElt to determines the computer's choice
-    // uses showComputerChoice to display that choice
-    // uses rpsJudge to compare the choices to see who won
-    // updates the scores (global variables)
-    // uses updateScores to update the score display
-    // inserts a message on the page saying the outcome
+    // First uses resetRPS to reset the game to start the turn, then 
+    // uses highlightPlayerChoice to highlights the player's choice.
+    // It then generates the computer's choice with randomElt and displays it with
+    // showComputerChoice. It finally uses rpsJudge to compare the choices to see who won
+    // and updates the scores.
+    // Args:
+    //  evt: event object representing the click event acting on the images of
+    //       rock, paper, and scissors
+    // Returns:
+    //  None
     
     
     resetRPS();
