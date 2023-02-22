@@ -97,7 +97,7 @@ function rpsJudgeTester() {
     });
 }
 
-function playerTurn(e) {
+function playerTurn(evt) {
     // Simulates one round of rock paper scissors given the player's choice as a string.
     // uses resetRPS to reset the game to start the turn
     // uses highlightPlayerChoice to highlights the player's choice
@@ -108,12 +108,14 @@ function playerTurn(e) {
     // uses updateScores to update the score display
     // inserts a message on the page saying the outcome
     
-    console.log(r);
+    
     resetRPS();
-    highlightPlayerChoice();
+    console.log(evt.target);
+    let r = $(evt.target).parent().attr("data-choice");
+    highlightPlayerChoice(r);
     let computer_choice = randomElt();
     showComputerChoice(computer_choice);
-    let outcome = rpsJudge(choice, computer_choice);
+    let outcome = rpsJudge(r, computer_choice);
     updateScores(outcome);
 }
 
