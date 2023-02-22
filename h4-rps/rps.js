@@ -1,7 +1,16 @@
 // Mary, Miles
 
 function rpsJudge(c1, computer) {
-    // write a function, rpsJudge, to compare two choices (rock, paper, or scissors) as strings, returning 0 on a tie, 1 if the second argument wins, and -1 if the first argument wins. (Or some other encoding.)
+    // Compares two rock paper scissors inputs and
+    // decides which wins, or if it is a draw.
+    // Args:
+    //  c1: string representing the first rock, paper, scissors input
+    //  computer: string representing the second rock, paper, scissors input
+    // Returns:
+    //  Integer in [-1, 0, 1] representing the outcome;
+    //  -1 means c1 beats computer, 0 means it was a draw, and 1 means
+    //  the computer beat c1.
+    
     if (c1 === computer) {
         return 0
     }
@@ -31,19 +40,28 @@ function rpsJudge(c1, computer) {
 }
 
 function randomElt() {
-    // implement a randomElt function to return a random elemnt of an array (see below)
+    // Get a random element from an array.
+    // Args:
+    //  None
+    // Returns:
+    //  Array element randomly selected. The type may vary based on the array.
     let choices = ["rock", "paper", "scissors"];
     return choices[Math.floor(Math.random()*choices.length)];
 }
 
 function highlightPlayerChoice(choice) {
-    // write a function, highlightPlayerChoice that, given a player's choice as a string, puts a blue border around the choice image. Note that I used a simple trick to get this so that the page doesn't jump around when you do the highlighting. Start (in the static CSS) with a white border around each image/button. Then, the highlighting is just to change the border-color to blue. Then it's exactly the same size, so the layout is identical.
+    // Create a blue border around one of rock, paper, or scissors
+    // Args:
+    //  choice: string from ["rock", "paper", "scissors"] representing the choice
+    //          of throw to highlight.
+    // Returns:
+    //  None
     $("[data-choice=" + choice + "]").one().css("border-color", "blue");
 }
 
 function showComputerChoice(computer_choice) {
-    // write a function, showComputerChoice that, given the computer's choice as a string, sets the computer image. This is similar to what we did in class with the flowers.
-    $("#computerThrow").attr("src", "rps-images/" + computer_choice + ".png")
+    // This is similar to what we did in class with the flowers.
+    $("#computerThrow").attr("src", "rps-images/" + computer_choice + "-200.png")
 }
 
 function resetRPS() {
