@@ -1,0 +1,19 @@
+fieldset {
+    border-style:solid;
+    border-color:gray;
+}
+
+legend {
+    border-style: solid;
+    border-color: gray;
+    border-width: 1px;
+    background-color: lightcyan;
+}
+
+.correct {
+    background-color: lightgreen;
+}
+
+.incorrect {
+    background-color: lightcoral;
+}
