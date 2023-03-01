@@ -1,85 +1,110 @@
 // Mary, Miles
 
+let num_wins = 0;
+let num_ties = 0;
+let num_losses = 0;
+
+startOver();
+$().on("click", highlightPlayerChoice);
+$("#startOver").on("click", startOver);
+$(".throw").on("click", playerTurn);
+
 function rpsJudge(c1, computer) {
-    // write a function, rpsJudge, to compare two choices (rock, paper, or scissors) as strings, returning 0 on a tie, 1 if the second argument wins, and -1 if the first argument wins. (Or some other encoding.)
-    if (c1 === computer) {
-        return 0
-    }
-    switch (c1) {
-        case "rock":
-            switch (computer) {
-                case "scissors":
-                    return -1;
-                case "paper":
-                    return 1;
-            }
-        case "scissors":
-            switch (computer) {
-                case "rock":
-                    return 1;
-                case "paper":
-                    return -1;
-            }
-        case "paper":
-            switch (computer) {
-                case "rock":
-                    return -1;
-                case "scissors":
-                    return 1;
-            }
-    }
+    // Compares two rock paper scissors inputs and
+    // decides which wins, or if it is a draw.
+    // Args:
+    //  c1: string representing the first rock, paper, scissors input
+    //  computer: string representing the second rock, paper, scissors input
+    // Returns:
+    //  Integer in [-1, 0, 1] representing the outcome;
+    //  -1 means c1 beats computer, 0 means it was a draw, and 1 means
+    //  the computer beat c1.
+    let map = {"rock" : 0, "paper" : 1, "scissors" : 2};
+    let wl_matrix = [[0, 1, -1], [-1, 0, 1], [1, -1, 0]];
+    return wl_matrix[map[c1]][map[computer]];
 }
 
 function randomElt() {
-    // implement a randomElt function to return a random elemnt of an array (see below)
+    // Get a random element from an array.
+    // Args:
+    //  None
+    // Returns:
+    //  Array element randomly selected. The type may vary based on the array.
     let choices = ["rock", "paper", "scissors"];
     return choices[Math.floor(Math.random()*choices.length)];
 }
 
 function highlightPlayerChoice(choice) {
-    // write a function, highlightPlayerChoice that, given a player's choice as a string, puts a blue border around the choice image. Note that I used a simple trick to get this so that the page doesn't jump around when you do the highlighting. Start (in the static CSS) with a white border around each image/button. Then, the highlighting is just to change the border-color to blue. Then it's exactly the same size, so the layout is identical.
+    // Create a blue border around one of rock, paper, or scissors
+    // Args:
+    //  choice: string from ["rock", "paper", "scissors"] representing the choice
+    //          of throw to highlight.
+    // Returns:
+    //  None
     $("[data-choice=" + choice + "]").one().css("border-color", "blue");
 }
 
 function showComputerChoice(computer_choice) {
-    // write a function, showComputerChoice that, given the computer's choice as a string, sets the computer image. This is similar to what we did in class with the flowers.
-    $("#computerThrow").attr("src", "rps-images/" + computer_choice + ".png")
+    // Display the computer's choice of rock, paper, scissors.
+    // Args:
+    //  computer_choice: string representing the computer's choice.
+    //                   It is in the set ["rock", "paper", "scissors"]
+    // Returns:
+    //  None
+    $("#computerThrow").attr("src", "rps-images/" + computer_choice + "-200.png");
 }
 
 function resetRPS() {
     // Sets all the player choices back to a white border and clears the previous message.
+    // Args:
+    //  None
+    // Returns:
+    //  None
+    $("#outcome").text("");
     $("#player").find(".throw").css("border-color","white");
 }
 
 function startOver() {
-    // write a function, startOver, to reset the scores (you'll use this when the game starts over). It should also reset the game.
-    // add the latter function as an event handler for the "startOver" button
+    // Reset the scores and game.
+    // Args:
+    //  None
+    // Returns:
+    //  None
     resetRPS();
-    $("#game_so_far").find("#num_wins").text("0");
-    $("#game_so_far").find("#num_losses").text("0");
-    $("#game_so_far").find("#num_ties").text("0");
+    $("#computerThrow").attr("src", "rps-images/" + "question" + "-200.png");
+    num_wins = 0;
+    num_ties = 0;
+    num_losses = 0;
+    $("#game_so_far").find("#num_wins").text(num_wins.toString());
+    $("#game_so_far").find("#num_losses").text(num_losses.toString());
+    $("#game_so_far").find("#num_ties").text(num_ties.toString());
 }
 
 function updateScores(outcome) {
-    // write a function, updateScores to update the page with the current scores.
-    let current_text = 1;
+    // Update the page with the current scores.
+    // Args:
+    //  outcome: int representing the outcome of the game which
+    //           belongs to [-1, 0, 1]
+    // Returns:
+    //  None
     switch (outcome) {
         case -1:
-            current_text = $("#game_so_far").find("#num_wins").val() + 1;
-            $("#game_so_far").find("#num_wins").text(current_text.toString());
+            num_wins += 1;
+            $("#game_so_far").find("#num_wins").text(num_wins.toString());
             break;
         case 0:
-            current_text = $("#game_so_far").find("#num_ties").val() + 1;
-            $("#game_so_far").find("#num_ties").text(current_text.toString());
+            num_ties += 1;
+            $("#game_so_far").find("#num_ties").text(num_ties.toString());
             break;
         case 1:
-            current_text = $("#game_so_far").find("#num_losses").val() + 1;
-            $("#game_so_far").find("#num_losses").text(current_text.toString());
+            num_losses += 1;
+            $("#game_so_far").find("#num_losses").text(num_losses.toString());
             break;
         }
 }
 
 function rpsJudgeTester() {
+    // Given function to unit test rpsJudge() function
     let tests = [ ["rock", "rock", 0],
                   ["rock", "paper", 1],
                   ["rock", "scissors", -1],
@@ -97,27 +122,26 @@ function rpsJudgeTester() {
     });
 }
 
-function playerTurn(e) {
+function playerTurn(evt) {
     // Simulates one round of rock paper scissors given the player's choice as a string.
-    // uses resetRPS to reset the game to start the turn
-    // uses highlightPlayerChoice to highlights the player's choice
-    // uses randomElt to determines the computer's choice
-    // uses showComputerChoice to display that choice
-    // uses rpsJudge to compare the choices to see who won
-    // updates the scores (global variables)
-    // uses updateScores to update the score display
-    // inserts a message on the page saying the outcome
-    
-    console.log(r);
+    // First uses resetRPS to reset the game to start the turn, then 
+    // uses highlightPlayerChoice to highlights the player's choice.
+    // It then generates the computer's choice with randomElt and displays it with
+    // showComputerChoice. It finally uses rpsJudge to compare the choices to see who won
+    // and updates the scores.
+    // Args:
+    //  evt: event object representing the click event acting on the images of
+    //       rock, paper, and scissors
+    // Returns:
+    //  None
     resetRPS();
-    highlightPlayerChoice();
+    let r = $(evt.target).parent().attr("data-choice");
+    highlightPlayerChoice(r);
     let computer_choice = randomElt();
     showComputerChoice(computer_choice);
-    let outcome = rpsJudge(choice, computer_choice);
+    let outcome = rpsJudge(r, computer_choice);
+    let map = {"-1" : "You win!", "0" : "Tie", "1" : "Computer wins"};
+    $("#outcome").text(map[outcome.toString()]);
     updateScores(outcome);
 }
 
-startOver();
-$().on("click", highlightPlayerChoice);
-$("#startOver").on("click", startOver);
-$(".throw").on("click", playerTurn);
