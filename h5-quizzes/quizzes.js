@@ -29,6 +29,17 @@ var questions = [
     }
 ];
 
+function addQuizQuestion(question) {
+    let clone = $("#quiz-template").clone();
+    clone.find('legend').text(question.Q);
+    $('div label input[value="A"]').closest('label').text(question.A);
+    $('div label input[value="B"]').closest('label').text(question.B);
+    $('div label input[value="C"]').closest('label').text(question.C);
+    $('div label input[value="D"]').closest('label').text(question.D);
+    clone.appendTo('#myquestions');
+    console.log("done");
+}
+
 function addQuestion(el){ //takes one of the elements in the array e.g: questions[0], questions[2]...
     let fieldset = $("<fieldset>");
     let legend = $("<legend>").text(el.Q);
@@ -92,3 +103,4 @@ questions.forEach(function (qDict) {addQuestion(qDict)}); //this puts each quest
 // we can pass each one of the answers once each question is added
 
 //wrap each questions with their respective answers. Use <form class="question1">?
+addQuizQuestion(questions[0]);
