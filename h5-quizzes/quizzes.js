@@ -16,8 +16,10 @@ function checkCorrect(event) {
     let resp = fieldset.find('div label input[type=radio]:checked').val();
     if (resp === ans) {
         fieldset.attr('class', 'correct');
+        fieldset.find('div[class=grade-button]').find('p').text("CORRECT YAY");
     } else {
-        fieldset.attr('class', 'incorrect')
+        fieldset.attr('class', 'incorrect');
+        fieldset.find('div[class=grade-button]').find('p').text("INCORRECT SAD");
     }
 }
 
