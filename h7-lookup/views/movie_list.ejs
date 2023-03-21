@@ -15,6 +15,9 @@
         <% list.forEach( (elt) => {%>
         <li><%= elt.title %></li>
         <li><%= elt.release %></li>
+        <% elt.cast.forEach((cast_member) => { %>
+        <li><a href=/nm/<%= cast_member.nm %>><%= cast_member.name %></a></li>
+        <% }); %>
         <% }); %>
     </ul>
     <!-- load local js -->

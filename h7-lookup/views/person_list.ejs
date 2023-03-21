@@ -15,6 +15,9 @@
         <% list.forEach( (elt) => {%>
         <li><%= elt.name %></li>
         <li><%= elt.birthdate %></li>
+        <% elt.movies.forEach( (movie) => {%>
+            <li><a href=/tt/<%= movie.tt %>><%= movie.title %>, <%= movie.release %></a></li>
+        <% }); %>
         <% }); %>
     </ul>
     <!-- load local js -->
