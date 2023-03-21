@@ -47,17 +47,9 @@ const WMDB = "wmdb";
 const PEOPLE = "people";
 const MOVIES = "movies";
 
-// this list is also used to generate the menu, so element 0 is the default value
-
-const monthNames = ['select month', 'January', 'February', 'March',
-                    'April', 'May', 'June',
-                    'July', 'August', 'September',
-                    'October', 'November', 'December' ];
-
-
 // main page. just has links to two other pages
 app.get('/', (req, res) => {
-    return res.render('index.ejs', {monthNames} );
+    return res.render('index.ejs');
 });
 
 function personDescription(person) {
@@ -96,16 +88,48 @@ app.get('/tt/:movieid', async (req, res) => {
                        list: movie_list});
 });
     
-app.get('/people2/', async (req, res) => {
+app.get('/submit', async (req, res) => {
+    let id = req.query.id;
+    let kind = req.query.kind;
     const db = await Connection.open(mongoUri, WMDB);
-    const people = db.collection(PEOPLE);
-    let all = await people.find({}).toArray();
-    let now = new Date();
-    let nowStr = now.toLocaleString();
-    return res.render('listPeople.ejs',
-                      {listDescription: `all people (v2) as of ${nowStr}`,
-                       list: all});
-});
+    
+    if (kind === "person name") {
+        const people = db.collection(PEOPLE);
+        const reg = new RegExp(id, "i");
+        let person_list = await people.find({name: reg}).toArray();
+        switch (person_list.length) {
+            case 0:
+                console.log("No results!");
+                return res.render('index.ejs');
+            case 1:
+                let idno = person_list[0].nm;
+                return res.redirect("/nm/" + idno);
+            default:
+                return res.render('list.ejs', {listDescription: "people matching " + id,
+                                               id,
+                                               kind,
+                                               list: person_list});
+        }
+    } else if (kind === "movie title") {
+        const movies = db.collection(MOVIES);
+        const reg = new RegExp(id, "i");
+        let movie_list = await movies.find({title: reg}).toArray();
+        switch (movie_list.length) {
+            case 0:
+                console.log("No results!");
+                return res.render('index.ejs');
+            case 1:
+                let idno = movie_list[0].tt;
+                return res.redirect("/tt/" + idno);
+            default:
+                return res.render('list.ejs', {listDescription: "List of movies matching" + id,
+                                               id,
+                                               kind,
+                                               list: movie_list});
+        }
+    }
+}
+);
 
 // This function filters a list of dictionaries for those with the correct targetMonth.
 // The target month is 1-based, so January = 1, etc. 
