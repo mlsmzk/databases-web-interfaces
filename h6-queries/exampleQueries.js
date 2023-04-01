@@ -7,26 +7,23 @@ const mongoUri = cs304.getMongoUri();
 
 // ================================================================
 
-/** returns titles of movies containing a substring. 
- */
+// In the movie_lens_db, return an array of all movies released in 2010, sorted by title in ascending order.
 
-function titleIncludesSubstring(db, substring) {
-  const re = new RegExp(substring, "i");
-  return db                 // identify database (in this case, a stored variable)
-    .collection("movie")    // movie collection
-    .find({title: re})      // find titles containing "og" substring
-    .project({title: 1})    // only return "title" field in final array
-    .sort({title: 1})       // sort title in ascending alphabetical order
+// main should print the number of movies and the first one.
+
+function moviesFrom2010() {
+  return db.movie_lens_db
+    .find({title: {$regex : /2010/}}, {sort: {title: 1}})
     .toArray();             // convert data to array to work with it in nodejs
 }
 
-/** returns titles of movies containing a substring where the genres
- * also includes the given substring.
- */
+// In the movie_lens_db, return an array of all comedies released in 2010, sorted by title in ascending order.
 
-function searchTitleAndGenre(db, titleSubstring, genreSubstring) {
-  const re1 = new RegExp(titleSubstring, "i");
-  const re2 = new RegExp(genreSubstring, "i");
+// main should print the number of movies and the first one.
+
+function findComedies2010() {
+  const re1 = new RegExp("2010", "i");
+  const re2 = new RegExp("comedy", "i");
   return db                           // identify database (in this case, an argument)
     .collection("movie")              // use movie collection
     .find({title: re1, genres: re2})  // match titles and genres
@@ -35,26 +32,16 @@ function searchTitleAndGenre(db, titleSubstring, genreSubstring) {
     .toArray();                       // convert data to array to work with it in nodejs
 }
 
-/** Finds the youngest person in the WMDB collection. Computes locally in Node.js 
- */
 
-async function youngestPerson(db) {
-  // find the youngest actor in the wmdb database's people collection
-  const people = await db               // identify db (in this case, a stored variable)
-    .collection("people")               // use people collection
-    .find()                             // find all entries
-    .project({name: 1, birthdate: 1})   // only return name and birthdate fields
-    .toArray();                         // convert data to array to work with it in nodejs
-  let youngest = {name: "", birthdate: '01-01-1800'}; // set arbitrary "oldest" birthdate
+// In the movie_lens_db, return an array of all movies rated by the user with id 610. Sort by rating in descending order and then by movie title in ascending order alphabetically.
 
-  people.forEach(person => {
-    // iterate over each person in found people
-    if (Date.parse(person.birthdate) > Date.parse(youngest.birthdate)) {
-      youngest = person; // if person is younger than the current best, replace the value
-    }
-  }) 
+// main should print the number of movies and the first one, which will be the alphabetically first 5-star movie (if any).
 
-  return youngest;
+async function ratings610(db) {
+    return db                           // identify database (in this case, an argument)
+    .collection("movie")              // use movie collection
+    .find({tags: {userId : 610}}, {})  // match titles and genres
+    .project({title: 1});
 }
 
 /** Finds the youngest person in the WMDB collection. Computes in
@@ -140,12 +127,8 @@ async function main() {
     console.log('starting function check...\n');
 
     const movie_lens_db = await Connection.open(mongoUri, 'movie_lens_db');
-    q1 = await titleIncludesSubstring(movie_lens_db, "harry");
-    console.log("titleIncludesSubstring:",
-                q1.length, "harry movies found, such as", q1[0]);
-    q2 = await searchTitleAndGenre(movie_lens_db, "harry", "adventure");
-    console.log("searchTitleAndGenre:",
-                q2.length, "harry adventure movies found, such as", q2[0]);
+    q1 = await moviesFrom2010();
+    q2 = 
     await Connection.close();
 
     console.log("\n");
